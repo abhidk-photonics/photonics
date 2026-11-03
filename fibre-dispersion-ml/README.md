@@ -1,51 +1,76 @@
 # Fibre Dispersion Prediction Using Machine Learning
 
-Python implementation of a physics-based step-index fibre model and an MLP regression model for chromatic-dispersion prediction.
+Python implementation of a physics-based step-index fibre model and a multilayer perceptron (MLP) regression model for chromatic-dispersion prediction.
 
-## Files
+## Project Structure
 
-- `src/fibre_model.py`: Sellmeier index, LP01 solution, effective index and dispersion.
-- `src/dataset.py`: fibre design generation, labelled dataset creation and design-wise split.
-- `src/train_model.py`: feature/target standardisation and MLP training.
-- `src/evaluate_model.py`: held-out test metrics and test-set plots.
-- `src/plot_dispersion.py`: physics-model dispersion curve.
-- `requirements.txt`: dependencies.
-- `requirements-tested.txt`: exact versions used to generate the results.
+- `src/fibre_model.py`: Sellmeier refractive index, LP01 mode solution, effective index and chromatic dispersion.
+- `src/dataset.py`: Fibre design generation, dataset creation and design-wise data splitting.
+- `src/train_model.py`: Feature and target standardisation, MLP training and model saving.
+- `src/evaluate_model.py`: Held-out test evaluation, prediction metrics and error analysis plots.
+- `src/plot_dispersion.py`: Physics-model dispersion curve generation.
+- `data/`: Generated fibre dispersion dataset.
+- `results/`: Dispersion plots, prediction comparisons and test-set predictions.
+- `requirements.txt`: Python dependencies.
+- `requirements-tested.txt`: Exact library versions used to generate the reported results.
+- `.gitignore`: Excludes Python caches, virtual environments and the trained model file.
 
-## Parameters
+## Fibre Parameters and Dataset
 
-Core radius: 3.2–4.0 µm; core–cladding index difference: 0.0025–0.0050; wavelength: 1300–1600 nm (31 points).
+The step-index fibre model considers the following parameter ranges:
 
-The dataset contains 300 fibre designs and 9,300 samples. The split is by design: 240 training, 30 validation and 30 test designs. The validation designs are held out but not used for training or model selection; early stopping uses a random 15% of the training rows.
+- Core radius: 3.2–4.0 µm
+- Core–cladding refractive-index difference: 0.0025–0.0050
+- Operating wavelength: 1300–1600 nm (31 wavelength points)
 
-The test designs come from the same sampled range as the training designs, so the evaluation measures interpolation within that range.
+The model uses a scalar LP01 mode approximation with a constant core–cladding refractive-index difference. The wavelength dependence of the refractive indices is therefore introduced through the Sellmeier model for the cladding, with the core index derived from the specified index difference.
 
-## Run from the project root
+The dataset contains 300 distinct fibre designs, each evaluated at 31 wavelength points, giving 9,300 samples.
+
+The data is split by fibre design into:
+- Training: 240 designs (7,440 samples)
+- Validation: 30 designs (930 samples)
+- Test: 30 designs (930 samples)
+
+The validation designs are held out and are not used for training or model selection. Early stopping instead uses a random 15% subset of the training rows.
+
+The test designs are sampled from the same parameter ranges as the training designs. Therefore, the evaluation measures interpolation to unseen fibre designs within the sampled parameter space, rather than extrapolation beyond it.
+
+## Running the Project
+
+Run the following commands from the project root directory.
 
 ```bash
-python -m pip install -r requirements.txt   # or requirements-tested.txt for exact versions
+python -m pip install -r requirements.txt
+
 python src/dataset.py
 python src/plot_dispersion.py
 python src/train_model.py
 python src/evaluate_model.py
 ```
 
-Outputs:
+To install the exact tested library versions instead, use:
 
-| File | Content |
+```bash
+python -m pip install -r requirements-tested.txt
+```
+
+## Generated Outputs
+
+| File | Description |
 |---|---|
-| `data/fibre_dispersion_dataset.csv` | Generated dataset (included for inspection; `dataset.py` recreates it) |
-| `models/fibre_dispersion_mlp.joblib` | Trained MLP and scalers (not stored in the repository; created by `train_model.py`) |
-| `results/physics_dispersion_curve.png` | Physics-model dispersion for one design (default a = 3.8 µm, Δn = 0.004) |
-| `results/predicted_vs_reference.png` | MLP prediction against physics reference, test set |
-| `results/test_design_curves.png` | Physics curve and MLP prediction for four test designs |
-| `results/error_histogram.png` | Distribution of test-set prediction errors |
-| `results/error_vs_wavelength.png` | Test-set errors and per-wavelength MAE |
-| `results/test_predictions.csv` | Reference and predicted values for every test sample |
+| `data/fibre_dispersion_dataset.csv` | Generated dataset containing the fibre parameters and reference dispersion values. Included in the repository and regenerated by `dataset.py`. |
+| `models/fibre_dispersion_mlp.joblib` | Trained MLP and fitted scalers. Generated by `train_model.py`; not stored in the repository. |
+| `results/physics_dispersion_curve.png` | Physics-model dispersion curve for one fibre design (default: a = 3.8 µm, Δn = 0.004). |
+| `results/predicted_vs_reference.png` | Comparison of MLP predictions against physics-model reference values for the test set. |
+| `results/test_design_curves.png` | Dispersion curves comparing physics-model values and MLP predictions for four test designs spread across the core-radius range. |
+| `results/error_vs_wavelength.png` | Test-set prediction errors and mean absolute error across wavelengths. |
+| `results/error_histogram.png` | Distribution of test-set prediction errors. |
+| `results/test_predictions.csv` | Reference and predicted dispersion values for every test sample. |
 
-## Test performance
+## Test Performance
 
-Evaluated on 30 held-out fibre designs (930 samples) with random seed 42:
+Evaluated on 30 held-out fibre designs (930 samples) using random seed 42.
 
 | Metric | Result |
 |---|---:|
@@ -53,16 +78,45 @@ Evaluated on 30 held-out fibre designs (930 samples) with random seed 42:
 | MAE | 0.0541 ps/(nm·km) |
 | RMSE | 0.0745 ps/(nm·km) |
 
-These values compare the MLP with physics-model reference values, not experimental measurements.
+These metrics quantify agreement between the MLP predictions and the physics-based model. They do not represent validation against experimental measurements.
 
 ## Results
 
-![Predicted vs. reference dispersion](results/predicted_vs_reference.png)
+**Physics-model dispersion**
+
+![Physics-model dispersion curve](results/physics_dispersion_curve.png)
+
+**Dispersion curves for test designs**
 
 ![Physics model and MLP for four test designs](results/test_design_curves.png)
 
+**Predicted versus reference dispersion**
+
+![Predicted versus reference dispersion](results/predicted_vs_reference.png)
+
+**Prediction error across wavelength**
+
 ![Error versus wavelength](results/error_vs_wavelength.png)
+
+**Distribution of prediction errors**
+
+![Prediction error distribution](results/error_histogram.png)
 
 ## Reproducibility
 
-The exact original 300 design combinations were not available, so `dataset.py` samples designs uniformly at random with seed 42. All random steps (design sampling, data split, network initialisation) use this seed, and two separate runs of the commands above produced identical datasets, metrics and figures. The results were generated with Python 3.13, NumPy 2.5.3, SciPy 1.18.1, pandas 3.0.5, scikit-learn 1.9.1 and Matplotlib 3.11.2. Other library versions may change the last digits of the metrics.
+The exact original 300 fibre design combinations were not available. Therefore, `dataset.py` generates 300 designs by uniform random sampling with seed 42.
+
+All random steps, including design sampling, data splitting and network initialisation, use this seed. Two independent runs of the project produced identical datasets, predictions, metrics and figures.
+
+The reported results were generated using:
+
+| Software | Version |
+|---|---|
+| Python | 3.13 |
+| NumPy | 2.5.3 |
+| SciPy | 1.18.1 |
+| pandas | 3.0.5 |
+| scikit-learn | 1.9.1 |
+| Matplotlib | 3.11.2 |
+| joblib | 1.6.0 |
+
