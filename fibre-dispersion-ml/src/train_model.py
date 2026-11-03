@@ -18,8 +18,6 @@ def train(data_path, model_path, seed=42):
     xs, ys = StandardScaler(), StandardScaler()
     X_train = xs.fit_transform(train_df[FEATURES])
     y_train = ys.fit_transform(train_df[[TARGET]]).ravel()
-
-    # Settings retained from the earlier project notes.
     # Note: early_stopping holds out a random 15% of training rows, not whole
     # designs, and the validation designs from the split are not used here.
     mlp = MLPRegressor(
