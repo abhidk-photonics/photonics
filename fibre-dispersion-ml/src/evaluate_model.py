@@ -83,13 +83,13 @@ def evaluate(data_path, model_path, output_dir, seed=42):
     plt.ylabel("MLP-predicted dispersion [ps/(nm·km)]")
     plt.title("Predicted vs. reference chromatic dispersion")
     plt.tight_layout()
-    plt.savefig(out/"predicted_vs_reference.png", dpi=300)
+    plt.savefig(out/"predicted_vs_reference_dispersion.png", dpi=300)
     plt.close()
 
     test = test.assign(predicted=pred, error=pred - actual)
-    plot_design_curves(test, out/"test_design_curves.png")
-    plot_error_histogram(test, out/"error_histogram.png")
-    plot_error_vs_wavelength(test, out/"error_vs_wavelength.png")
+    plot_design_curves(test, out/"test_fibre_design_dispersion_comparison.png")
+    plot_error_histogram(test, out/"dispersion_prediction_error_distribution.png")
+    plot_error_vs_wavelength(test, out/"dispersion_prediction_error_vs_wavelength.png")
 
     print(f"Test designs: {test.design_id.nunique()} | samples: {len(test)}")
     print(f"R² = {r2:.6f}; MAE = {mae:.6f} ps/(nm·km); RMSE = {rmse:.6f} ps/(nm·km)")
