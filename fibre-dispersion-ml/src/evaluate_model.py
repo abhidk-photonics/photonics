@@ -73,7 +73,7 @@ def evaluate(data_path, model_path, output_dir, seed=42):
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
     pd.DataFrame({"reference_dispersion": actual, "predicted_dispersion": pred}).to_csv(
-        out/"test_predictions.csv", index=False
+        out/"test_set_predictions.csv", index=False
     )
     lo, hi = min(actual.min(), pred.min()), max(actual.max(), pred.max())
     plt.figure(figsize=(7, 6))
