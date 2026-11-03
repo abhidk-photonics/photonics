@@ -12,7 +12,6 @@ def make_fibre_designs(n_designs=300, random_state=42):
     rng = np.random.default_rng(random_state)
     pairs, seen = [], set()
     while len(pairs) < n_designs:
-        # Rounding makes the duplicate check meaningful and keeps the CSV stable.
         pair = (round(float(rng.uniform(3.2, 4.0)), 8),
                 round(float(rng.uniform(0.0025, 0.0050)), 8))
         if pair not in seen:
