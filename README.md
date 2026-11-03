@@ -6,7 +6,7 @@ This is where I keep my personal explorations and computational projects in phot
 
 ### Machine Learning-Based Prediction of Fibre Chromatic Dispersion
 
-In this project, I explored how well a neural network can predict chromatic dispersion from a fibre's design parameters. I started by building a physics-based step-index fibre model that solves for the fundamental LP01 mode and uses the Sellmeier equation for the refractive index of silica. I then used that model to generate the data: 300 fibre designs, each evaluated at 31 wavelengths between 1300 and 1600 nm. Finally, I trained a multilayer perceptron (MLP) to predict dispersion from core radius, index difference, and wavelength.
+In this project I explored how well a neural network can predict chromatic dispersion from a fibre's design parameters. I started by building a physics-based step-index fibre model that solves for the fundamental LP01 mode and uses the Sellmeier equation for the refractive index of silica. I then used that model to generate the data: 300 fibre designs, each evaluated at 31 wavelengths between 1300 and 1600 nm. Finally, I trained a multilayer perceptron (MLP) to predict dispersion from core radius, index difference, and wavelength.
 
 I split the data by fibre design, so the 30 test fibres are ones the network never saw at any wavelength. They come from the same parameter ranges as the training fibres, which means the test checks interpolation within the range I sampled, not extrapolation beyond it.
 
