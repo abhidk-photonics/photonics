@@ -8,7 +8,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--radius", type=float, default=3.8)
     p.add_argument("--delta-n", type=float, default=0.004)
-    p.add_argument("--output", default="results/physics_dispersion_curve.png")
+    p.add_argument("--output", default="results/physics_model_dispersion_curves.png")
     a = p.parse_args()
     wavelengths = np.linspace(1300, 1600, 31)
     dispersion = calculate_dispersion_curve(a.radius, a.delta_n, wavelengths)
