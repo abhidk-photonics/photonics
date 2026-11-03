@@ -1,6 +1,6 @@
 # Photonics Musings
 
-A collection of personal explorations and computational projects in photonics, numerical modelling, and machine learning.
+This will be a collection of personal explorations and computational projects in photonics, numerical modelling, and machine learning.
 
 ## Projects
 
