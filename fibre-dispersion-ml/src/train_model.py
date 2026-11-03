@@ -17,13 +17,14 @@ def train(data_path, model_path, seed=42):
     data = pd.read_csv(data_path)
     train_df, val_df, test_df = split_by_design(data, seed)
 
-    # Standardisation improves conditioning; scalers are fitted on training designs only.
+    # Standardisation improves conditioning. Scalers are fitted on training designs only.
     x_scaler = StandardScaler()
     y_scaler = StandardScaler()
     X_train = x_scaler.fit_transform(train_df[FEATURES])
     y_train = y_scaler.fit_transform(train_df[[TARGET]]).ravel()
 
-    # Early stopping uses a random row-wise subset of training data, not the held-out validation designs.
+    # Early stopping holds out a random 15% of training rows, not whole designs.
+    # The validation designs from the split are not used here.
     mlp = MLPRegressor(
         hidden_layer_sizes=(64, 64, 32),
         activation="relu",
