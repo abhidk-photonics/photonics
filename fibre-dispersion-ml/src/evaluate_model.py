@@ -20,8 +20,7 @@ from train_model import FEATURES, TARGET
 def plot_design_curves(test, path, n_designs=4):
     """Physics curve (line) and MLP prediction (markers) for a few test designs."""
 
-    # Pick designs evenly across the core-radius range so the curves are not
-    # all from one corner of the design space.
+    
     designs = (
         test.drop_duplicates("design_id")
         .sort_values("core_radius_um")
