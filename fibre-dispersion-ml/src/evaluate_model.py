@@ -147,7 +147,7 @@ def evaluate(data_path, model_path, output_dir, seed=42):
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    # Save test-set predictions
+    
     pd.DataFrame({
         "reference_dispersion": actual,
         "predicted_dispersion": pred
@@ -156,7 +156,7 @@ def evaluate(data_path, model_path, output_dir, seed=42):
         index=False
     )
 
-    # Predicted versus reference dispersion
+    
     lo = min(actual.min(), pred.min())
     hi = max(actual.max(), pred.max())
 
@@ -176,13 +176,13 @@ def evaluate(data_path, model_path, output_dir, seed=42):
     )
     plt.close()
 
-    # Add predictions and errors to the test dataset
+   
     test = test.assign(
         predicted=pred,
         error=pred - actual
     )
 
-    # Generate test-design comparison and error plots
+  
     plot_design_curves(
         test,
         out / "test_fibre_design_dispersion_comparison.png"
@@ -198,7 +198,7 @@ def evaluate(data_path, model_path, output_dir, seed=42):
         out / "dispersion_prediction_error_vs_wavelength.png"
     )
 
-    # Print evaluation metrics
+   
     print(
         f"Test designs: {test.design_id.nunique()} "
         f"| samples: {len(test)}"
