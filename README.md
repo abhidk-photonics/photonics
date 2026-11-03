@@ -54,10 +54,13 @@ Exploring neural network-based prediction of chromatic dispersion using a physic
 
 #### Test Performance
 
+Evaluated on 30 held-out fibre designs (930 samples), using the code in this repository with random seed 42:
+
 | Metric | Result |
 |---|---:|
-| R² | 0.999893 |
-| MAE | 0.0485 ps/(nm·km) |
+| R² | 0.999854 |
+| MAE | 0.0541 ps/(nm·km) |
+| RMSE | 0.0745 ps/(nm·km) |
 
 PS: The evaluation measures agreement with the physics-based model and does not represent validation against experimental measurements.
 
