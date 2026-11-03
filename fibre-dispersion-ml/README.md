@@ -1,6 +1,6 @@
 # Fibre Dispersion Prediction Using Machine Learning
 
-Python implementation of a physics-based step-index fibre model and a multilayer perceptron  regression model for chromatic-dispersion prediction.
+Python implementation of a physics-based step-index fibre model and a multilayer perceptron (MLP) regression model for chromatic-dispersion prediction.
 
 ## Project Structure
 
@@ -23,7 +23,7 @@ The step-index fibre model considers the following parameter ranges:
 - Core–cladding refractive-index difference: 0.0025–0.0050
 - Operating wavelength: 1300–1600 nm (31 wavelength points)
 
-The model uses a scalar LP01 mode approximation with a constant core–cladding refractive-index difference. The wavelength dependence of the refractive indices is therefore introduced through the Sellmeier model for the cladding, with the core index derived from the specified index difference.
+The model uses a scalar LP01 mode approximation with a constant core–cladding refractive-index difference. Only the cladding carries the Sellmeier wavelength dependence, and the core index is the cladding index plus the specified difference.
 
 The dataset contains 300 distinct fibre designs, each evaluated at 31 wavelength points, giving 9,300 samples.
 
@@ -35,7 +35,7 @@ The data is split by fibre design into:
 
 The validation designs are held out and are not used for training or model selection. Early stopping instead uses a random 15% subset of the training rows.
 
-The test designs are sampled from the same parameter ranges as the training designs. Therefore, the evaluation measures interpolation to unseen fibre designs within the sampled parameter space, rather than extrapolation beyond it.
+The test designs come from the same parameter ranges as the training designs, so the evaluation measures interpolation to unseen designs within the sampled range, not extrapolation beyond it.
 
 ## Running the Project
 
@@ -105,7 +105,7 @@ These metrics quantify agreement between the MLP predictions and the physics-bas
 
 ## Reproducibility
 
-The exact original 300 fibre design combinations were not available. Therefore, `dataset.py` generates 300 designs by uniform random sampling with seed 42.
+I could not recover the exact original 300 fibre design combinations, so `dataset.py` generates 300 designs by uniform random sampling with seed 42.
 
 All random steps, including design sampling, data splitting and network initialisation, use this seed. Two independent runs of the project produced identical datasets, predictions, metrics and figures.
 
@@ -120,4 +120,3 @@ The reported results were generated using:
 | scikit-learn | 1.9.1 |
 | Matplotlib | 3.11.2 |
 | joblib | 1.6.0 |
-
