@@ -6,7 +6,7 @@ from scipy.special import j0, j1, k0, k1
 
 C0 = 299792458.0
 
-# Malitson (1965) Sellmeier coefficients for fused silica; wavelength is in µm.
+# Malitson (1965) Sellmeier coefficients for fused silica. Wavelength is in µm.
 B = np.array([0.6961663, 0.4079426, 0.8974794])
 C = np.array([0.004679148, 0.01351206, 97.934002])
 
@@ -58,7 +58,7 @@ def calculate_neff(core_radius_um, delta_n, wavelength_nm):
     wavelength_um = np.asarray(wavelength_nm, dtype=float) / 1000
     n_clad = silica_index(wavelength_um)
 
-    # The core–cladding index contrast is fixed, so Sellmeier dispersion enters through the cladding.
+    # The index contrast is fixed, so Sellmeier dispersion enters through the cladding.
     n_core = n_clad + delta_n
     V = (
         2 * np.pi * core_radius_um / wavelength_um
@@ -80,7 +80,7 @@ def calculate_dispersion_curve(core_radius_um, delta_n, wavelength_nm):
         calculate_neff(core_radius_um, delta_n, wavelength_nm)
     )
 
-    # Cubic-spline differentiation provides the second wavelength derivative; endpoints are less reliable.
+    # The spline gives the second wavelength derivative. Endpoints are less reliable.
     spline = CubicSpline(wavelength_m, neff)
     d2n = spline(wavelength_m, 2)
 
