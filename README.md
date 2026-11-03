@@ -59,7 +59,7 @@ A collection of personal explorations and computational projects in photonics, n
 | R² | 0.999893 |
 | MAE | 0.0485 ps/(nm·km) |
 
-*The evaluation measures agreement with the physics-based model and does not represent validation against experimental measurements.*
+PS: *The evaluation measures agreement with the physics-based model and does not represent validation against experimental measurements.*
 
 ----------------------------------------------------------------------------------------------------------------
 
