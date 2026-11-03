@@ -4,6 +4,4 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 .DS_Store
-# The model is a pickle: it can break across scikit-learn versions.
-# Regenerate it with src/train_model.py.
 models/*.joblib
