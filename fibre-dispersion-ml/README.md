@@ -121,4 +121,3 @@ The reported results were generated using:
 | Matplotlib | 3.11.2 |
 | joblib | 1.6.0 |
 
-Results may vary slightly with different library versions.
