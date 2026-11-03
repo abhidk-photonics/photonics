@@ -1,6 +1,6 @@
 # Fibre Dispersion Prediction Using Machine Learning
 
-Python implementation of a physics-based step-index fibre model and a multilayer perceptron (MLP) regression model for chromatic-dispersion prediction.
+Python implementation of a physics-based step-index fibre model and a multilayer perceptron  regression model for chromatic-dispersion prediction.
 
 ## Project Structure
 
